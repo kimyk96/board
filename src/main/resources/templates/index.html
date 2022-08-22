@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>메인페이지</title>
+</head>
+<body>
+<h1>인덱스 페이지</h1>
+<h2>현재 <span sec:authorize="isAuthenticated()">로그인</span><span sec:authorize="isAnonymous()">로그아웃</span> 상태입니다.</h2>
+<div>
+    <div sec:authorize="isAuthenticated()">
+        <ul>
+            <li>회원권한 : <span sec:authorize="hasRole('USER')">유저</span><span sec:authorize="hasRole('ADMIN')">관리자</span>
+            </li>
+            <li>이름 : <p></p></li>
+            <li><a href="/logout">로그아웃</a></li>
+        </ul>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <ul>
+            <li><a href="/login">로그인</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

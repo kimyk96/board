@@ -1,0 +1,56 @@
+-- Connection
+drop user boardProject001 cascade;
+create user boardProject001 identified by 1234;
+grant connect, resource to boardProject001;
+conn boardProject001/1234;
+
+-- 테이블
+drop table board;
+drop table comments;
+drop table member;
+drop table role;
+
+create table board (
+	bno number(6) constraint board_pk_bno primary key,
+	title varchar2(100 char),
+	content clob,
+	writer varchar2(10 char),
+	write_time date default sysdate,
+	read_cnt number(3) default 0,
+	comment_cnt number(3) default 0,
+	good_cnt number(4) default 0,
+	bad_cnt number(4) default 0
+);
+create table comments (
+  	cno number(6) constraint comments_pk_cno primary key,
+	content varchar2(200 char),
+	writer varchar2(10 char),
+	write_time date default sysdate,
+	bno number(6)
+);
+create table member (
+	username varchar2(10 char) constraint member_pk_username primary key,
+	password varchar2(60 char),
+	name varchar2(20 char),
+	email varchar2(50 char),
+	birthday date,
+	login_fail_cnt number(1) default 0,
+	enabled number(1) default 1
+);
+create table role (
+	username varchar2(10 char),
+	rolename varchar2(20 char),
+	constraint role_pk primary key(username, rolename)
+);
+
+
+-- 시퀀스
+drop sequence board_seq;
+drop sequence comments_seq;
+
+create sequence board_seq;
+create sequence comments_seq;
+
+
+-- 인덱스
+create index comments_idx_bno on comments(bno);
